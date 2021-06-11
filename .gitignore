@@ -1,6 +1,7 @@
 *
 
 !.gitignore
-!src/**/*
+!src/WebServer.java
+!src/HttpStatusCode.java
 !README.md
 !LICENSE
