@@ -303,13 +303,14 @@ HTTP headers let the client, and the server pass additional information with an 
 >````
 
 <h4 align="center">So, what we need in our response?</h4>
-* [ ] Headers
-    * [ ] Format of the response (like `HTTP/1.1 200 OK`)
-    * [ ] The name of the server (`Server: yourserver`)
-    * [ ] The date of the response (`Date: ` and add behind this an `+ new Date()`)
-    * [ ] The content type of our response (`Content-Type: text/html` or `Content-Type: application/json`)
-    * [ ] The content length of the response data we want to send (`Content-Length: 1000`)
-* [ ] Data
+
+* Headers
+    * Format of the response (like `HTTP/1.1 200 OK`)
+    * The name of the server (`Server: yourserver`)
+    * The date of the response (`Date: ` and add behind this an `+ new Date()`)
+    * The content type of our response (`Content-Type: text/html` or `Content-Type: application/json`)
+    * The content length of the response data we want to send (`Content-Length: 1000`)
+* Data
 
 <h4 align="center">So lets build a method for handle that all!</h4>
 
