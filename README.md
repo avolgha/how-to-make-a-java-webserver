@@ -16,12 +16,9 @@
 
 ## » First Words
 >Hey, <br>
-If you want to use this code in your project, I would like to mention that this is no Professional Code and there are 
-many better ways to implement HTTP for Java, like [Spring](https://spring.io/). <br>
-This code is for self learning and not for using, because I don't think that this is much extendable or good usable code
-for big projects or companies. <br>
-This code is for new users of the Java-Language that want to learn how the implementation
-of HTTP in Java works, to maybe use it for creating better and bigger frameworks. <br>
+If you want to use this code in your project, I would like to mention that this is no Professional Code and there are many better ways to implement HTTP for Java, like [Spring](https://spring.io/). <br>
+This code is for self learning and not for using, because I don't think that this is much extendable or good usable code for big projects or companies. <br>
+This code is for new users of the Java-Language that want to learn how the implementation of HTTP in Java works, to maybe use it for creating better and bigger frameworks. <br>
 ~ Marius
 
 ## » What you need?
@@ -32,8 +29,7 @@ You only need a working JDK.
 ><b>Info:</b> I test this on [JDK 14.0.2](https://www.oracle.com/java/technologies/javase/14-0-2-relnotes.html). 
 The tutorial might not work on newer or older versions of Java, but it should work
 
-And it would be good if you have an IDE like [IntelliJ IDEA](https://www.jetbrains.com/idea/), [Eclipse](https://www.eclipse.org/), [Apache NetBeans](https://netbeans.apache.org/) or anything else that adds
-help for code editing and smart suggestions to your life <i>(I would say)</i>
+And it would be good if you have an IDE like [IntelliJ IDEA](https://www.jetbrains.com/idea/), [Eclipse](https://www.eclipse.org/), [Apache NetBeans](https://netbeans.apache.org/) or anything else that adds help for code editing and smart suggestions to your life <i>(I would say)</i>
 
 Later I use a JSON library to validate raw json strings. You can find the library [here](https://repo1.maven.org/maven2/org/json/json/20210307/)
 
@@ -52,8 +48,7 @@ If you have another structure you want to use: Do! (but I'm using this one...)
 
 ## » The first class, main method and other things
 
-So as you seen in the [Structure](#-structure), I like to put my web server code in a class named `WebServer.java`, so
-others can easily see, what the class does. <br>
+So as you seen in the [Structure](#-structure), I like to put my web server code in a class named `WebServer.java`, soothers can easily see, what the class does. <br>
 
 Then you have to create the `main` method. Your class should look like this:
 ````java
@@ -74,24 +69,20 @@ private static final boolean verbose = true;
 
 >The `REGEX_URL_SPLIT` we use later for splitting the request path, so we get all text of the request path as one array
 
->The `PORT` is, as it says, the port we want our server to listen on. If you don't want to specify the port everytime 
-you connect to the server, you should set it to `80`.
-
-<b>Warning:</b> If you are running any other service like `nginx` or `Apache HTTP`, this could come to conflicts because
-they want also to use this port. Then please choose another port for any of these services or for this server
+>The `PORT` is, as it says, the port we want our server to listen on. If you don't want to specify the port everytime you connect to the server, you should set it to `80`.<br><br>
+<b>Warning:</b> If you are running any other service like `nginx` or `Apache HTTP`, this could come to conflicts because they want also to use this port. Then please choose another port for any of these services or for this server
 
 >The `verbose` is used to specify if any extra logging should be made.
 
 As next step you can implement `java.lang.Runnable` in your `WebServer` class and implement the `run()` method
 
-Now you create a local final field with type of `java.net.Socket` with the name `socket`. Then you create a 
-constructor where you require this Socket as parameter and give it back to the local final field.
+Now you create a local final field with type of `java.net.Socket` with the name `socket`. Then you create a constructor where you require this Socket as parameter and give it back to the local final field.
 
 Your code should look like this now:
 ````java
 package some.nice.name;
 
-public class WebServer {
+public class WebServer implements Runnable {
     private static final String REGEX_URL_SPLIT = "/";
     private static final int PORT = 8080;
     private static final boolean verbose = true;
@@ -104,6 +95,9 @@ public class WebServer {
     
     public static void main(String[] args) {
     }
+
+    @Override
+    public void run() {}
 }
 ````
 
@@ -169,8 +163,7 @@ try {
 
 ## » How to handle the request? 
 
-Through the fact, that we implemented the `Runnable`-Interface in our class, we can use the `run()` method to
-interact with the user.
+Through the fact, that we implemented the `Runnable`-Interface in our class, we can use the `run()` method to interact with the user.
 
 In the `run` method you can now create a try-catch-finally-block that is looking like this:
 ````java
@@ -187,20 +180,16 @@ try (BufferedReader       requestReader = new BufferedReader(new InputStreamRead
 ````
 
 You maybe wonder about the syntax I use here. It is called `try-with-resources Statement`. <br>
-I don't want to explain it here
-but if you want to know more about that, read the documentation that is linked here
+I don't want to explain it here but if you want to know more about that, read the documentation that is linked here
 >An official documentation page of this you can find [here](https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html)
 
 But I want to explain the arguments in the `try`-block to you:
 * `requestReader` <br>
-    ==> Every time you call the server, a request will be created where developers read things like your IP, request 
-  headers, auth states, and the path you query from
+    ==> Every time you call the server, a request will be created where developers read things like your IP, request headers, auth states, and the path you query from
 * `headerWriter` <br>
-    ==> As every request, also every response has headers. There are things like the status of you request, the type
-  of the response (html/json/etc) and other cool things
+    ==> As every request, also every response has headers. There are things like the status of you request, the type of the response (html/json/etc) and other cool things
 * `contentWriter` <br>
-    ==> With the content writer you can write content to the user that will be displayed in their Web Browser, Terminal, 
-  or wherever they call this server
+    ==> With the content writer you can write content to the user that will be displayed in their Web Browser, Terminal, or wherever they call this server
   
 Now we can check the request and read the HTTP Method and the requested path from there:
 ````java
@@ -223,11 +212,9 @@ And you might have wondered about the `sendJson` method. We will create this soo
 
 But what are we doing in the code?
 
-Basically we read the request and parse it into a `StringTokenizer`. Then we read the `method` and the requested path 
-(`requested`) from there.
+Basically we read the request and parse it into a `StringTokenizer`. Then we read the `method` and the requested path (`requested`) from there.
 
-In the `if` we check if the user calls the server with `HTTP GET`. If that isn't the case, we send the user a deny-message 
-in json. Otherwise, we split the requested path at `REGEX_URL_SPLIT` (`/`) and put it into an array.
+In the `if` we check if the user calls the server with `HTTP GET`. If that isn't the case, we send the user a deny-message in json. Otherwise, we split the requested path at `REGEX_URL_SPLIT` (`/`) and put it into an array.
 
 After the array, we can write now the code where we send the data to the user. But wait for that until the next section!
 
@@ -299,8 +286,7 @@ public class WebServer implements Runnable {
 
 To write data to the user, we have our `headerWriter` and our `contentWriter`. 
 
-HTTP headers let the client, and the server pass additional information with an HTTP request or response. 
-A complete documentation for you can find [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) 
+HTTP headers let the client, and the server pass additional information with an HTTP request or response. A complete documentation for you can find [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) 
 
 ><b>Good to know</b>
 > 
@@ -338,12 +324,9 @@ int responseLength
 ````
 
 The `statusCode` is the status the request got at your server. <br>
-So as example: If we call the `index.html` page on a web server, you should <i>EVERYTIME</i> get a 200 status, 
-because every website should have an index page. <b>BUT</b> if the page doesn't have this requested page, there
-will be sent a 404 status code back, that means that the page does not exist.
+So as example: If we call the `index.html` page on a web server, you should <i>EVERYTIME</i> get a 200 status,  because every website should have an index page. <b>BUT</b> if the page doesn't have this requested page, there will be sent a 404 status code back, that means that the page does not exist.
 
-If you know that you will only send HTML or JSON you can remove this `contentType` and later add the response type
-where the `contentType` should be used. 
+If you know that you will only send HTML or JSON you can remove this `contentType` and later add the response type where the `contentType` should be used. 
 
 In the `response` we have the data that will be sent to the user. No string, raw bytes.
 
@@ -374,8 +357,7 @@ So what we are doing is that:
 
 <h4 align="center">The HttpStatusCode enum</h4>
 
-So to implement this, you basically only need to copy the `HttpStatusCode.java` file of the `src/` directory in this
-repository. Then put this in your code and that was it.
+So to implement this, you basically only need to copy the `HttpStatusCode.java` file of the `src/` directory in this repository. Then put this in your code and that was it.
 
 In there are - <i>kinda</i> - all Http Status Codes, with their name and status code.
 
@@ -393,8 +375,7 @@ In there are - <i>kinda</i> - all Http Status Codes, with their name and status 
 
 <h4 align="center">Helper methods are nice! Don't say anything else...</h4>
 
-The `write()` method is good but what is, if we don't want to specify `text/html` as content type, everytime we
-call the method. We could make a method that do this automatically for us.
+The `write()` method is good but what is, if we don't want to specify `text/html` as content type, everytime we call the method. We could make a method that do this automatically for us.
 
 ````java
 static void sendHtml(PrintWriter headerWriter, BufferedOutputStream contentWriter, int statusCode, String content) throws IOException {
@@ -402,17 +383,13 @@ static void sendHtml(PrintWriter headerWriter, BufferedOutputStream contentWrite
 }
 ````
 
-The method is very similar to the first one, but has nice changes. We don't have to specify a content type, or the
-content length anymore. Also, we have now a string as data. The java compiler does now the work with transforming
-the string into bytes and the calculating of the length for you. It's easy! And you can do it for everything you
-want
+The method is very similar to the first one, but has nice changes. We don't have to specify a content type, or the content length anymore. Also, we have now a string as data. The java compiler does now the work with transforming the string into bytes and the calculating of the length for you. It's easy! And you can do it for everything you want
 
 ## » Other things
 
 <h4 align="center">JSON validation and sending</h4>
 
-As I mentioned earlier I will use the `org.json.json` library for this project. Feel free to use some library like 
-`Jackson` or `json-simple`. If you want to download the library I use, look [here](#-what-you-need)
+As I mentioned earlier I will use the `org.json.json` library for this project. Feel free to use some library like  `Jackson` or `json-simple`. If you want to download the library I use, look [here](#-what-you-need)
 
 >#### Simple Introduction to `org.json.json`
 >````java
@@ -428,8 +405,7 @@ As I mentioned earlier I will use the `org.json.json` library for this project. 
 >
 >###### Java Streams... WTF?
 >if you aren't familiar with Java Streams, that code might look very obvious to you.
->Basically, because the `messages.toList()` method returns objects, I check if the given object is a String and
->filter it out. Then I cast all other remaining string objects to strings
+>Basically, because the `messages.toList()` method returns objects, I check if the given object is a String and filter it out. Then I cast all other remaining string objects to strings
 
 
 The nice thing is, you'll get an exception if you create an instance of a JSON Object, and the parsed json isn't valid.
